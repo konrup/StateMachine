@@ -1,34 +1,10 @@
-def runGradleTask(task) {
-  sh "./gradlew ${task}"
-}
+node {
+	stage 'Checkout'
+		checkout scm
 
-def runGradleTask(task, timeToWait) {
-  timeout(time: timeToWait, unit: 'MINUTES') {
-    runGradleTask(task)
-  }
-}
+	stage 'Build'
+    sh "./gradlew assemble"
 
-pipeline {
-  agent any
-
-  stages {
-
-    stage('Build Assets') {
-      agent any
-
-      steps {
-        echo 'Building Assets...'
-        runGradleTask("clean --parallel")
-        runGradleTask("assemble")
-      }
-    }
-
-    stage('Test') {
-      agent any
-      steps {
-        echo 'Testing stuff...'
-        runGradleTask("test")
-      }
-    }
-  }
+	stage 'Test'
+		sh "./gradlew test"
 }
