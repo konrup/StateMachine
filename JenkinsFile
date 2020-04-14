@@ -1,0 +1,34 @@
+def runGradleTask(task) {
+  sh "./gradlew ${task}"
+}
+
+def runGradleTask(task, timeToWait) {
+  timeout(time: timeToWait, unit: 'MINUTES') {
+    runGradleTask(task)
+  }
+}
+
+pipeline {
+  agent any
+
+  stages {
+
+    stage('Build Assets') {
+      agent any
+
+      steps {
+        echo 'Building Assets...'
+        runGradleTask("clean --parallel")
+        runGradleTask("assemble")
+      }
+    }
+
+    stage('Test') {
+      agent any
+      steps {
+        echo 'Testing stuff...'
+        runGradleTask("test")
+      }
+    }
+  }
+}
