@@ -14,8 +14,8 @@ public class LibraryTest {
     assertTrue("someLibraryMethod should return 'true'", classUnderTest.someLibraryMethod());
   }
 
-  @Test
+  @Test(expected = RuntimeException.class)
   public void testFail() {
-    throw new RuntimeException("This should fail the Jenkins build");
+    throw new RuntimeException("This should no longer fail the Jenkins build");
   }
 }
