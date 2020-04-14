@@ -18,4 +18,9 @@ public class LibraryTest {
   public void testFail() {
     throw new RuntimeException("This should no longer fail the Jenkins build");
   }
+
+  @Test
+  public void testAnother() {
+    System.out.println("This test is just there...");
+  }
 }
